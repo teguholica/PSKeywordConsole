@@ -1,6 +1,8 @@
 # PSKeywordConsole
 Find Keyword in PlayStore
 
+![](preview.gif)
+
 ### Usage
 `npm start` to start pskeyword console
 
