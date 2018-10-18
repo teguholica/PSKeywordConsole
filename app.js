@@ -5,7 +5,7 @@ const ora = require('ora')
 const stringArgv = require('string-argv')
 
 const chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','10']
-const spinner = ora('Tunggu yaa...')
+const spinner = ora('Please Wait...')
 const rl = readline.createInterface(process.stdin, process.stdout)
 
 showPrompt()
@@ -30,7 +30,7 @@ function showPrompt() {
                 break
         
             default:
-                console.log('command e sek bener lek')
+                console.log('Command Not Found')
                 rl.prompt()
                 break
         }
