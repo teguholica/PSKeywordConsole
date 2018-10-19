@@ -9,6 +9,10 @@ Find Keyword in PlayStore
 ### Command List
 `find "seed keyword"` to find all keyword base on seed keyword
 
+`density "seed keyword"` to find popular word base on seed keyword
+
+`check "package name"` to analyze app keyword
+
 `clear` to clear screen
 
 `exit` to exit from console

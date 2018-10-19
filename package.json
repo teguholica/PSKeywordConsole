@@ -1,6 +1,6 @@
 {
   "name": "pskeyword",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
+    "easy-table": "^1.1.1",
     "google-play-scraper": "^6.2.0",
     "ora": "^3.0.0",
     "string-argv": "^0.1.1"
