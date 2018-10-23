@@ -1,6 +1,6 @@
 {
   "name": "pskeyword",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -12,8 +12,11 @@
   "dependencies": {
     "async": "^2.6.1",
     "easy-table": "^1.1.1",
+    "global-tunnel-ng": "^2.6.0",
     "google-play-scraper": "^6.2.0",
     "ora": "^3.0.0",
+    "proxy-lists": "^1.16.0",
+    "public-ip": "^2.4.0",
     "string-argv": "^0.1.1"
   }
 }

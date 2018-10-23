@@ -13,6 +13,12 @@ Find Keyword in PlayStore
 
 `check "package name"` to analyze app keyword
 
+`proxy set <country>` to set proxy
+
+`proxy get` to get current proxy
+
+`proxy clear` to clear proxy
+
 `clear` to clear screen
 
 `exit` to exit from console

@@ -4,8 +4,12 @@ const readline = require('readline')
 const ora = require('ora')
 const stringArgv = require('string-argv')
 const Table = require('easy-table')
+const ProxyLists = require('proxy-lists')
+const globalTunnel = require('global-tunnel-ng')
+const publicIp = require('public-ip')
 
 const chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','10']
+let currentProxy
 
 showPrompt()
 
@@ -44,6 +48,10 @@ function showPrompt() {
                     spinner.stop()
                     console.log(t.toString())
                     rl.prompt()
+                }).catch(() => {
+                    spinner.stop()
+                    console.log('Failed to get keyword')
+                    rl.prompt()
                 })
                 break
             case 'check':
@@ -66,6 +74,40 @@ function showPrompt() {
                     rl.prompt()
                 })
                 break;
+            case 'proxy':
+                if (args[1] === 'set') {
+                    spinner.start()
+                    getProxies(args[2]).then(proxy => {
+                        currentProxy = proxy
+
+                        // globalTunnel.end()
+                        globalTunnel.initialize({
+                            host: currentProxy.ipAddress,
+                            port: currentProxy.port,
+                            connect: 'both'
+                        })
+
+                        spinner.stop()
+                        console.log(`Set proxy to : ${currentProxy.protocols} ${currentProxy.ipAddress}:${currentProxy.port}`)
+                        rl.prompt()
+                    }).catch(err => {
+                        spinner.stop()
+                        console.log('Set proxy failed')
+                        rl.prompt()
+                    })
+                } else if (args[1] === 'get') {
+                    if(currentProxy) {
+                        console.log(`Proxy ${currentProxy.country} ${currentProxy.protocols} ${currentProxy.ipAddress}:${currentProxy.port}`)
+                    } else {
+                        console.log('No Proxy')
+                    }
+                    rl.prompt()
+                } else if (args[1] === 'clear') {
+                    globalTunnel.end()
+                    currentProxy = null
+                    rl.prompt()
+                }
+                break
             case 'clear':
                 process.stdout.write('\033c')
                 rl.prompt()
@@ -82,6 +124,23 @@ function showPrompt() {
     })
     .on('close',() => process.exit(0))
 }
+
+getProxies = (country) => new Promise((resolve, reject) => {
+    const gettingProxies = ProxyLists.getProxies({
+        countries: [country],
+        protocols: ['http', 'https'],
+        sourcesWhiteList: ['hidemyname', 'blackhatworld'],
+        sourcesBlackList: null
+    })
+    let result = []
+    gettingProxies.on('data', proxies => {
+        result = result.concat(proxies)
+    })
+    gettingProxies.on('error', error => reject(error))
+    gettingProxies.once('end', function() {
+        resolve(result[Math.floor(Math.random()*result.length)])
+    });
+})
 
 getKeywords = (keyword) => new Promise((resolve, reject) => {
     const suggestFuncList = chars.map(char => async.apply(getSuggests, keyword + ' ' + char))
